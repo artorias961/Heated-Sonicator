@@ -8,7 +8,7 @@
 Rough Flow Chart
 ![image](https://user-images.githubusercontent.com/12043783/196532078-3c4a2dbf-a773-4274-a81c-dd474326b43c.png)
 
-### Flashing MicroPython for ESP32
+# Flashing MicroPython for ESP32
 You are going to need the firmware to change your ESP32 from C to MicroPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
 
