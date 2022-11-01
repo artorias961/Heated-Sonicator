@@ -32,7 +32,7 @@ esptool --chip esp32 --p COM# erase_flash
 Go to your directory of the firmware file you installed then from mambaforge, do the following command (*Change # to your number*):
 
 ```Python
-esptool --chip esp32 --p COM5 write_flash -z 0x1000 whateverYourFirmwareFileNameIs.bin
+esptool --chip esp32 --p COM# write_flash -z 0x1000 whateverYourFirmwareFileNameIs.bin
 ```
 
 ### Verifying the firmware using Thonny IDE 
