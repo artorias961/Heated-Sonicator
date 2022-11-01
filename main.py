@@ -1,4 +1,5 @@
-from machine import Pin
+from machine import Pin, I2C
+import ssd1306
 
 def user_interface_prompt():
     # Prompting the user to input the time for how long the machine should run
@@ -41,9 +42,28 @@ def user_interface_prompt():
             print("You have exceeded the maximum hours, lower your hours")
             print("We have decrease the hour by 1")
             hour = hour - 1
-        
+
+
+def oled_screen():
+    # Input pin for I2C
+    sda = Pin(4)
+    
+    # Output pin for I2C
+    scl = Pin(5)
+    
+    # Checking the speed rate for I2C (Default Address)
+    i2c = I2C(sda,scl)
+    
+    # Oled library i2c
+    oled_display = ssd1306.SSD1306_I2C(128, 64, i2c)
+    
+    # Testing out a print statement
+    oled_display.text("Hello World!!!", 0, 0, 1)
+    oled_display.show()
+
 
 
 
 def main():
     user_interface_prompt()
+    oled_screen()
