@@ -112,9 +112,12 @@ esptool --chip esp32 --p COM# write_flash -z 0x0000 whateverYourFirmwareFileName
 
 ### Reference
 - [MicroPython Firmware for Feather ESP32](https://micropython.org/download/esp32spiram/)
+- [Reference how to setup MicroPython using ESP32](https://learn.adafruit.com/adafruit-esp32-feather-v2/micropython-setup)
 - [CircuitPython](https://circuitpython.org/board/adafruit_feather_esp32_v2/)
+- [Reference how to setup CircuitPython using ESP32](https://learn.adafruit.com/circuitpython-with-esp32-quick-start/command-line-esptool)
 - [OLED I2C Reference](https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html)
 - [Basic I2C Commands](https://docs.micropython.org/en/latest/library/machine.I2C.html)
 - [ESP32 MicroPython API](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html)
 - [Information about ESPTOOL](https://docs.espressif.com/projects/esptool/en/latest/esp32/index.html#quick-start)
+
 
