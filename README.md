@@ -8,6 +8,20 @@
 Rough Flow Chart
 ![image](https://user-images.githubusercontent.com/12043783/196532078-3c4a2dbf-a773-4274-a81c-dd474326b43c.png)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Flashing MicroPython for ESP32
 You are going to need the firmware to change your ESP32 from C to MicroPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
@@ -69,9 +83,18 @@ Connect your ESP32 Feather V2 board and press the reset button. You should get t
 </p>
 
 
+# Flashing MicroPython for CircuitPython
+
+You are going to need the firmware to change your ESP32 from C to CircuitPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
+
+What worked for me is using [mambaforge](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html). Install mambaforge or find something that works for you, then use the following command:
+
+
 ### Reference
 - [MicroPython Firmware for Feather ESP32](https://micropython.org/download/esp32spiram/)
+- [CircuitPython](https://circuitpython.org/board/adafruit_feather_esp32_v2/)
 - [OLED I2C Reference](https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html)
 - [Basic I2C Commands](https://docs.micropython.org/en/latest/library/machine.I2C.html)
 - [ESP32 MicroPython API](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html)
 - [Information about ESPTOOL](https://docs.espressif.com/projects/esptool/en/latest/esp32/index.html#quick-start)
+
