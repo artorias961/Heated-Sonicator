@@ -89,6 +89,26 @@ You are going to need the firmware to change your ESP32 from C to CircuitPython.
 
 What worked for me is using [mambaforge](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html). Install mambaforge or find something that works for you, then use the following command:
 
+```Python
+pip install esptool
+```
+
+Once you have installed the package, ***check your device manager to determine which port your ESP32 is connected to***, once you find it then get the number and input the following to mambaforge or whatever you are using (*Change # to your number*):
+
+```Python
+esptool -p COM# flash_id
+```
+A command line should prompt up and tell you what board is your ESP32 is. We are then going to erase everything inside of the ESP32 board, do the following (*Change # to your number*):
+
+```Python
+esptool --chip esp32 --p COM# erase_flash
+```
+
+Go to your directory of the firmware file you installed then from mambaforge, do the following command (*Change # to your number*):
+
+```Python
+esptool --chip esp32 --p COM# write_flash -z 0x0000 whateverYourFirmwareFileNameIs.bin
+```
 
 ### Reference
 - [MicroPython Firmware for Feather ESP32](https://micropython.org/download/esp32spiram/)
