@@ -1,5 +1,6 @@
 from machine import Pin, I2C
 import ssd1306
+import time
 
 def user_interface_prompt():
     # Prompting the user to input the time for how long the machine should run
@@ -60,7 +61,15 @@ def oled_screen():
     # Testing out a print statement
     oled_display.text("Hello World!!!", 0, 0, 1)
     oled_display.show()
-
+    
+    
+    # For testing purposes
+    led = Pin(13, Pin.OUT)
+    while True:
+        led.on()
+        time.sleep(0.5)
+        led.off()
+        time.sleep(0.5)
 
 
 
