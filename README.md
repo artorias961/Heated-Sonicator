@@ -18,11 +18,13 @@ Rough Flow Chart
 
 
 
+# Set up for ESP32
+
+We are going to show you how to install MicroPython and CircuitPython. MicroPython is a python base but made for microcontroller. While CircuitPython is a derivative for MicroPython and AdaFruit uses this for python base microcontroller. ESP32 comes in default using C language however, we have decided to use python base for its simplicity and helping other students to get a better grasp of the code. We prefer C but it will help out in the future for others to understand the code.
 
 
 
-
-# Flashing MicroPython for ESP32
+## Flashing MicroPython for ESP32
 You are going to need the firmware to change your ESP32 from C to MicroPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
 
@@ -83,7 +85,8 @@ Connect your ESP32 Feather V2 board and press the reset button. You should get t
 </p>
 
 
-# Flashing MicroPython for CircuitPython
+
+## Flashing CircuitPython for ESP32
 
 You are going to need the firmware to change your ESP32 from C to CircuitPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
@@ -109,6 +112,15 @@ Go to your directory of the firmware file you installed then from mambaforge, do
 ```Python
 esptool --chip esp32 --p COM# write_flash -z 0x0000 whateverYourFirmwareFileNameIs.bin
 ```
+
+To change the following in Thonny IDE, you need to change the interpreter settings and you are ready.
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/199360982-3f4492b2-efee-4112-a028-1c656bd4d050.png">
+</p>
+
+
+
 
 ### Reference
 - [MicroPython Firmware for Feather ESP32](https://micropython.org/download/esp32spiram/)
