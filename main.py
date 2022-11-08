@@ -70,7 +70,7 @@ def display(temp: int, humid: int):
     splash.append(inner_sprite)
 
     # Draw some label text
-    text1 = "Arty Chan T-T"
+    text1 = "   Arty Chan T-T"
     text_area = label.Label(terminalio.FONT,  # font style
                             text=text1,       # text string
                             color=0xFFFFFF,   # white pixels
