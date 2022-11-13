@@ -24,7 +24,7 @@ We are going to show you how to install MicroPython and CircuitPython. MicroPyth
 
 
 
-## Flashing MicroPython for ESP32
+#### Flashing MicroPython for ESP32
 You are going to need the firmware to change your ESP32 from C to MicroPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
 
@@ -51,42 +51,11 @@ Go to your directory of the firmware file you installed then from mambaforge, do
 esptool --chip esp32 --p COM# write_flash -z 0x1000 whateverYourFirmwareFileNameIs.bin
 ```
 
-### Verifying the firmware using Thonny IDE 
-
-Open Thonny and you should get the following prompt:
 
 
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/54751574/199181008-79ed1aeb-2123-44ab-b2ef-cf49d6b621f6.png">
-</p>
 
-
-Go to **Run** then click **Configure interpreter. . .**
-
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/54751574/199181290-eadb9055-97e3-4947-8c28-234736a7a043.png">
-</p>
-
-Now go to **Interpreter**, find the prompt *Which kind of interpreter should Thonny use for running your code?*. Now select **MicroPython (ESP32)**, then click ok 
-
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/54751574/199181709-76888865-0eca-4028-b6f5-06838161b257.png">
-</p>
-
-Connect your ESP32 Feather V2 board and press the reset button. You should get the following:
-
-
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/54751574/199182112-7b61bbda-19b8-42c9-be02-256299a74da5.png">
-</p>
-
-
-
-## Flashing CircuitPython for ESP32
+#### Flashing CircuitPython for ESP32
 
 You are going to need the firmware to change your ESP32 from C to CircuitPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
 
@@ -122,7 +91,50 @@ To change the following in Thonny IDE, you need to change the interpreter settin
 
 
 
-### Reference
+
+#### Verifying the firmware using Thonny IDE 
+
+Open Thonny and you should get the following prompt:
+
+
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/199181008-79ed1aeb-2123-44ab-b2ef-cf49d6b621f6.png">
+</p>
+
+
+Go to **Run** then click **Configure interpreter. . .**
+
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/199181290-eadb9055-97e3-4947-8c28-234736a7a043.png">
+</p>
+
+Now go to **Interpreter**, find the prompt *Which kind of interpreter should Thonny use for running your code?*. Now select **MicroPython (ESP32)**, then click ok 
+
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/199181709-76888865-0eca-4028-b6f5-06838161b257.png">
+</p>
+
+Connect your ESP32 Feather V2 board and press the reset button. You should get the following:
+
+
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/199182112-7b61bbda-19b8-42c9-be02-256299a74da5.png">
+</p>
+
+
+# ESP32 Pin Layout
+
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54751574/201508138-0a738ecb-21a5-4301-bf9b-e8b0466828f9.png">
+</p>
+
+
+# Reference
 - MicroPython 
   - [MicroPython Firmware for Feather ESP32](https://micropython.org/download/esp32spiram/)
   - [Reference how to setup MicroPython using ESP32](https://learn.adafruit.com/adafruit-esp32-feather-v2/micropython-setup)
