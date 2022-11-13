@@ -138,7 +138,8 @@ To change the following in Thonny IDE, you need to change the interpreter settin
   - [General Link for CircuitPython](https://docs.circuitpython.org/en/latest/README.html)
   - [CircuitPython API](https://docs.circuitpython.org/en/latest/shared-bindings/index.html)
   
-- ESP Flasher
+- ESP32/ESP8266
   - [Information about ESPTOOL](https://docs.espressif.com/projects/esptool/en/latest/esp32/index.html#quick-start)
+  - [ESP32 V2 Pin Layout](https://learn.adafruit.com/adafruit-esp32-feather-v2/pinouts)
 
 
