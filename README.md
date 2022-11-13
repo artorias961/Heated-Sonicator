@@ -149,6 +149,7 @@ Connect your ESP32 Feather V2 board and press the reset button. You should get t
   - [Link for what is CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/what-is-circuitpython)
   - [General Link for CircuitPython](https://docs.circuitpython.org/en/latest/README.html)
   - [CircuitPython API](https://docs.circuitpython.org/en/latest/shared-bindings/index.html)
+  - [Setup Web Workflow](https://learn.adafruit.com/circuitpython-with-esp32-quick-start/setting-up-web-workflow)
   
 - ESP32/ESP8266
   - [Information about ESPTOOL](https://docs.espressif.com/projects/esptool/en/latest/esp32/index.html#quick-start)
