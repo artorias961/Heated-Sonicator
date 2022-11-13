@@ -6,6 +6,7 @@ import terminalio
 import adafruit_ahtx0
 from adafruit_display_text import label
 import adafruit_displayio_sh1107
+import microcontroller
 
 def temp_and_humidity():
     # Use for I2c for Temp/Humidity sensor
@@ -92,33 +93,83 @@ def display(temp: int, humid: int):
     )
     splash.append(text_area2)
     
-def led_setup(temp):
-    # Pin setup for overload water level
-    water_level_overload_led = DigitalInOut(33)
-    water_level_overload_led.direction = digitalio.Direction.OUTPUT
     
-    # Pin setup for underload water level
-    water_level_underload_led = DigitalInOut(15)
-    water_level_underload_led.direction = digitalio.Direction.OUTPUT
+def led_setup():
+    """
+    Setup the pin then return in when needed for another function
+    """
+    # Pin setup for overload water level (Water Level Transducer)
+    pin33 = board.D33
+    water_level_overload_led = DigitalInOut(pin33)
+    water_level_overload_led.direction = Direction.OUTPUT
+    
+    # Pin setup for underload water level (Water Level Transducer)
+    pin15 = board.D15
+    water_level_underload_led = DigitalInOut(pin15)
+    water_level_underload_led.direction = Direction.OUTPUT
     
     # Pin setup for max temperature limit
-    max_temp_led = DigitalInOut(32)
-    max_temp_led.direction = digitalio.Direction.OUTPUT
+    pin32 = board.D32
+    max_temp_led = DigitalInOut(pin32)
+    max_temp_led.direction = Direction.OUTPUT
     
     return water_level_overload_led, water_level_underload_led, max_temp_led
 
-def water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, max_temp_led):
-    # Checking for the temperature limit 
-    if 70 > temp:
+
+def button_setup():
+    # Pretend this is the water level transducer
+    pin14 = board.D14
+    button_one = DigitalInOut(pin14)
+    button_one.pull = Pull.UP
+    
+    return button_one
+    
+
+
+def water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, max_temp_led, button_one):
+    # Checking for the temperature limit
+    if humid > 70:
         max_temp_led.value = True
+        time.sleep(1)
         stop_switch = True
+    else:
+        max_temp_led.value = False
+        stop_switch = False
+    
+    # If the high level is met then turn on the led
+    if button_one.value:
+        print("Warning high water level. Machine will stop")
+        time.sleep(1)
+        stop_switch = True
+    else:
+        stop_switch = False
         
     return stop_switch
-        
+
+
+def get_pin_info():
+    """
+    Prints out information of the pin name. Meant to call the correct pin name
+    """
+    board_pins = []
+    for pin in dir(microcontroller.pin):
+        if isinstance(getattr(microcontroller.pin, pin), microcontroller.Pin):
+            pins = []
+            for alias in dir(board):
+                if getattr(board, alias) is getattr(microcontroller.pin, pin):
+                    pins.append("board.{}".format(alias))
+            if len(pins) > 0:
+                board_pins.append(" ".join(pins))
+    for pins in sorted(board_pins):
+        print(pins)
+
         
 def main():
     # Setting up the pins
     water_level_overload_led, water_level_underload_led, max_temp_led = led_setup()
+    
+    # Setting up the buttons and transducer
+    button_one = button_setup()
     
     # Infinite Statement
     while True:
@@ -129,18 +180,25 @@ def main():
         print(f"Temp: {temp} C, Humid: {humid} %")
         
         # Waits for 2 mili-seconds for the data
-        time.sleep(2)
+        time.sleep(1)
         
         # Send the data to the display oled module
         display(temp, humid)
         
         # Send the pins and the sensor data to check 
-        stop_switch = water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, temp_overload_led)
+        stop_switch = water_level_status_led(temp,
+                                             humid,
+                                             water_level_overload_led,
+                                             water_level_underload_led,
+                                             max_temp_led,
+                                             button_one)
         
         # Waits for 2 mili-seconds for the data 
-        time.sleep(2)
+        time.sleep(1)
         
-        if !(stop_switch):
+        if stop_switch:
             break
     
+
+
 
