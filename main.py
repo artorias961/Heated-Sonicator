@@ -120,15 +120,22 @@ def button_setup():
     # Pretend this is the water level transducer
     pin14 = board.D14
     button_one = DigitalInOut(pin14)
+    button_one.direction = Direction.INPUT
     button_one.pull = Pull.UP
     
-    return button_one
+    # Pretend this is the water level transducer
+    pin27 = board.D27
+    button_two = DigitalInOut(pin27)
+    button_two.direction = Direction.INPUT
+    button_two.pull = Pull.UP
+    
+    return button_one, button_two
     
 
 
-def water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, max_temp_led, button_one):
+def water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, max_temp_led, button_one, button_two):
     # Checking for the temperature limit
-    if humid > 70:
+    if temp > 70:
         max_temp_led.value = True
         time.sleep(1)
         stop_switch = True
@@ -136,14 +143,26 @@ def water_level_status_led(temp, humid, water_level_overload_led, water_level_un
         max_temp_led.value = False
         stop_switch = False
     
-    # If the high level is met then turn on the led
-    if button_one.value:
+    # If the high level is met then turn on led and kill the machine
+    if button_one.value and (not button_two.value):
         print("Warning high water level. Machine will stop")
+        water_level_overload_led.value = True
         time.sleep(1)
         stop_switch = True
     else:
+        water_level_overload_led.value = False
         stop_switch = False
         
+    # If the low level is met then turn on led and kill the machine
+    if button_two.value and (not button_one.value):
+        print("Warning low water level. Machine will stop")
+        water_level_underload_led.value = True
+        time.sleep(1)
+        stop_switch = True
+    else:
+        water_level_underload_led.value = False
+        stop_switch = False
+    
     return stop_switch
 
 
@@ -169,16 +188,20 @@ def main():
     water_level_overload_led, water_level_underload_led, max_temp_led = led_setup()
     
     # Setting up the buttons and transducer
-    button_one = button_setup()
+    button_one, button_two = button_setup()
     
     # Infinite Statement
     while True:
         # Getting the updated temperature and humidity sensor data
         temp, humid = temp_and_humidity()
         
+        
+    
+        
         # Testing to see if the code works and prints on the computer console 
         print(f"Temp: {temp} C, Humid: {humid} %")
-        
+        print(button_one.value)
+        print(button_two.value)
         # Waits for 2 mili-seconds for the data
         time.sleep(1)
         
@@ -191,7 +214,8 @@ def main():
                                              water_level_overload_led,
                                              water_level_underload_led,
                                              max_temp_led,
-                                             button_one)
+                                             button_one,
+                                             button_two)
         
         # Waits for 2 mili-seconds for the data 
         time.sleep(1)
