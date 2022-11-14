@@ -220,18 +220,18 @@ def set_clock_timer(button_three, button_four, button_five):
             user_clock_input -= 1
         
         # Checking if the clock timer is within range
-        if (user_clock_timer < 0):
+        if (user_clock_input < 0):
             # Increase the timer by one hour 
-            user_clock_timer += 1
+            user_clock_input += 1
             
             # Print in the OLED screen
             print("Warning you have passed the limit")
             print("Increasing the timer by 1 hour")
         
         # Checking if the clock timer is within range
-        elif (user_clock_timer > 8):
+        elif (user_clock_input > 8):
             # Decreasing the timer by one hour
-            user_clock_timer -= 1
+            user_clock_input -= 1
             
             # Print on the OLED screen
             print("Warning you have passed the limit")
@@ -242,9 +242,9 @@ def set_clock_timer(button_three, button_four, button_five):
             clock_done_switch = True
         
         # Print on the OLED screen of the current timer 
-        print(user_clock_timer)
+        print(user_clock_input)
     
-    return user_clock_timer 
+    return user_clock_input 
 
 def clock_timer():
     pass
@@ -259,6 +259,9 @@ def main():
     # Set clock timer
     timer = set_clock_timer(button_three, button_four, button_five)
     
+    # Test varible for a timer clock
+    counter = 0
+    
     # Infinite Statement
     while True:
         # Getting the updated temperature and humidity sensor data
@@ -268,6 +271,8 @@ def main():
         print(f"Temp: {temp} C, Humid: {humid} %")
         print(button_one.value)
         print(button_two.value)
+        counter += 1
+        print(counter)
         
         # Send the data to the display oled module
         display(temp, humid)
@@ -290,6 +295,3 @@ def main():
         if stop_switch:
             break
     
-
-
-
