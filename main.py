@@ -7,23 +7,6 @@ import adafruit_ahtx0
 from adafruit_display_text import label
 import adafruit_displayio_sh1107
 import microcontroller
-
-def temp_and_humidity():
-    # Use for I2c for Temp/Humidity sensor
-    i2c = board.I2C()
-    sensor = adafruit_ahtx0.AHTx0(i2c)
-    
-    # Getting the temperature from the sensor
-    temperature = sensor.temperature
-    
-    # Getting the humidity from the sensor 
-    humidity = sensor.relative_humidity
-    
-    # Convert datatype from float to int
-    temperature = int(temperature)
-    humidity = int(humidity)
-    
-    return temperature, humidity
     
 
 def display(temp: int, humid: int):
@@ -93,7 +76,25 @@ def display(temp: int, humid: int):
     )
     splash.append(text_area2)
     
+
+def temp_and_humidity():
+    # Use for I2c for Temp/Humidity sensor
+    i2c = board.I2C()
+    sensor = adafruit_ahtx0.AHTx0(i2c)
     
+    # Getting the temperature from the sensor
+    temperature = sensor.temperature
+    
+    # Getting the humidity from the sensor 
+    humidity = sensor.relative_humidity
+    
+    # Convert datatype from float to int
+    temperature = int(temperature)
+    humidity = int(humidity)
+    
+    return temperature, humidity
+
+
 def led_setup():
     """
     Setup the pin then return in when needed for another function
@@ -129,7 +130,25 @@ def button_setup():
     button_two.direction = Direction.INPUT
     button_two.pull = Pull.UP
     
-    return button_one, button_two
+    # To increase the time
+    pin12 = board.D12
+    button_three = DigitalInOut(pin12)
+    button_three.direction = Direction.INPUT
+    button_three.pull = Pull.UP
+    
+    # To decrease the time
+    pin13 = board.D13
+    button_four = DigitalInOut(pin13)
+    button_four.direction = Direction.INPUT
+    button_four.pull = Pull.UP
+    
+    # Select button (pin number may give issues)
+    pin5 = board.D5
+    button_five = DigitalInOut(pin5)
+    button_five.direction = Direction.INPUT
+    button_five.pull = Pull.UP
+    
+    return button_one, button_two, button_three, button_four, button_five
     
 
 
@@ -182,28 +201,73 @@ def get_pin_info():
     for pins in sorted(board_pins):
         print(pins)
 
+
+def set_clock_timer(button_three, button_four, button_five):
+    # Asking the user to input a time (by hour)
+    user_clock_input = 0
+    
+    # A switch to break the while loop
+    clock_done_switch = False
+    
+    while not clock_done_switch:
+        # Print to the OLED
         
+        # Increase the timer 
+        if button_three.value > 0:
+            user_clock_input += 1
+        # Decrease the timer
+        elif button_four.value > 0:
+            user_clock_input -= 1
+        
+        # Checking if the clock timer is within range
+        if (user_clock_timer < 0):
+            # Increase the timer by one hour 
+            user_clock_timer += 1
+            
+            # Print in the OLED screen
+            print("Warning you have passed the limit")
+            print("Increasing the timer by 1 hour")
+        
+        # Checking if the clock timer is within range
+        elif (user_clock_timer > 8):
+            # Decreasing the timer by one hour
+            user_clock_timer -= 1
+            
+            # Print on the OLED screen
+            print("Warning you have passed the limit")
+            print("Decreasing the timer by 1 hour")
+        
+        # If user is done, then press the button to break the while loop
+        if button_five.value > 0:
+            clock_done_switch = True
+        
+        # Print on the OLED screen of the current timer 
+        print(user_clock_timer)
+    
+    return user_clock_timer 
+
+def clock_timer():
+    pass
+
 def main():
     # Setting up the pins
     water_level_overload_led, water_level_underload_led, max_temp_led = led_setup()
     
     # Setting up the buttons and transducer
-    button_one, button_two = button_setup()
+    button_one, button_two, button_three, button_four, button_five = button_setup()
+    
+    # Set clock timer
+    timer = set_clock_timer(button_three, button_four, button_five)
     
     # Infinite Statement
     while True:
         # Getting the updated temperature and humidity sensor data
         temp, humid = temp_and_humidity()
         
-        
-    
-        
         # Testing to see if the code works and prints on the computer console 
         print(f"Temp: {temp} C, Humid: {humid} %")
         print(button_one.value)
         print(button_two.value)
-        # Waits for 2 mili-seconds for the data
-        time.sleep(1)
         
         # Send the data to the display oled module
         display(temp, humid)
@@ -217,7 +281,10 @@ def main():
                                              button_one,
                                              button_two)
         
-        # Waits for 2 mili-seconds for the data 
+        # Clock timer counting down 
+        stop_switch = clock_timer()
+        
+        # Waits for 1 mili-seconds for the data 
         time.sleep(1)
         
         if stop_switch:
