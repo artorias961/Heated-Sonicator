@@ -118,17 +118,17 @@ def led_setup():
 
 
 def button_setup():
-    # Pretend this is the water level transducer
+    # Pretend this is the water level transducer (top water level)
     pin14 = board.D14
     button_one = DigitalInOut(pin14)
     button_one.direction = Direction.INPUT
     button_one.pull = Pull.UP
     
-    # Pretend this is the water level transducer
+    # Pretend this is the water level transducer (bottom water level)
     pin27 = board.D27
     button_two = DigitalInOut(pin27)
     button_two.direction = Direction.INPUT
-    button_two.pull = Pull.UP
+    button_two.pull = Pull.DOWN
     
     # To increase the time
     pin12 = board.D12
@@ -163,7 +163,7 @@ def water_level_status_led(temp, humid, water_level_overload_led, water_level_un
         stop_switch = False
     
     # If the high level is met then turn on led and kill the machine
-    if button_one.value and (not button_two.value):
+    if not button_one.value:
         print("Warning high water level. Machine will stop")
         water_level_overload_led.value = True
         time.sleep(1)
