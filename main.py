@@ -152,7 +152,16 @@ def button_setup():
     
 
 
-def water_level_status_led(temp, humid, water_level_overload_led, water_level_underload_led, max_temp_led, button_one, button_two):
+def water_level_status_led(
+    temp: float,                              #
+    humid: float,                             #
+    water_level_overload_led: DigitalInOut,   #
+    water_level_underload_led: DigitalInOut,  #
+    max_temp_led: DigitalInOut,               #
+    button_one: DigitalInOut,                 #
+    button_two: DigitalInOut                  #
+    ) -> bool:
+    
     # Checking for the temperature limit
     if temp > 70:
         max_temp_led.value = True
@@ -278,13 +287,14 @@ def main():
         display(temp, humid)
         
         # Send the pins and the sensor data to check 
-        stop_switch = water_level_status_led(temp,
-                                             humid,
-                                             water_level_overload_led,
-                                             water_level_underload_led,
-                                             max_temp_led,
-                                             button_one,
-                                             button_two)
+        stop_switch = water_level_status_led(
+            temp,
+            humid,
+            water_level_overload_led,
+            water_level_underload_led,
+            max_temp_led,
+            button_one,
+            button_two)
         
         # Clock timer counting down 
         stop_switch = clock_timer()
