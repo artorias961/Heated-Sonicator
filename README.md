@@ -1,88 +1,87 @@
-# Heated-Sonicatormain
-- Repairing the water bath for ECST makerspace,
-  used to dissolve supports on ABS 3D prints
-- Microcontroller was fried and obsolete, replacing with a ESP32 Feather
-  https://www.adafruit.com/product/5400
-  
-  
-Rough Flow Chart
+# Heated Sonicator – ESP32 CCA Replacement
+
+
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3e6eb601-3665-46d4-aff3-c9edcdbcae96" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Overview
+This repository documents the **replacement of the original CCA (Circuit Card Assembly)** of a **heated ultrasonic water bath (sonicator)** with an **ESP32-based controller**.
+
+The original control board failed and was either obsolete or not economically repairable.  
+The solution was to **retrofit the system using an ESP32 Feather**, restoring functionality while making the system easier to maintain, modify, and debug.
+
+This project was completed in a makerspace environment where the heated sonicator is primarily used to **dissolve ABS support material** from 3D-printed parts.
+
+
+
+## Primary Purpose of This Repository
+The **main reason this repository exists** is to:
+
+> **Replace the original heated sonicator CCA with an ESP32 board**
+
+Specifically:
+- Remove the failed proprietary control electronics
+- Install an ESP32 Feather as the new controller
+- Re-implement heater control and system logic in Python (MicroPython / CircuitPython)
+- Provide documentation so the repair can be reproduced or maintained by others
+
+
+
+## System Architecture
+
 ![image](https://user-images.githubusercontent.com/12043783/196532078-3c4a2dbf-a773-4274-a81c-dd474326b43c.png)
 
+**High-level flow:**
+- ESP32 handles logic and control
+- Power board switches heater and ultrasonic elements
+- Sensors provide temperature feedback
+- Firmware enforces safe operation
 
 
 
+## Repository Structure
 
-
-
-
-
-
-
-# Set up for ESP32
-
-We are going to show you how to install MicroPython and CircuitPython. MicroPython is a python base but made for microcontroller. While CircuitPython is a derivative for MicroPython and AdaFruit uses this for python base microcontroller. ESP32 comes in default using C language however, we have decided to use python base for its simplicity and helping other students to get a better grasp of the code. We prefer C but it will help out in the future for others to understand the code.
-
-
-
-#### Flashing MicroPython for ESP32
-You are going to need the firmware to change your ESP32 from C to MicroPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
-
-
-What worked for me is using [mambaforge](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html). Install mambaforge or find something that works for you, then use the following command:
-
-```Python
-pip install esptool
 ```
-
-Once you have installed the package, ***check your device manager to determine which port your ESP32 is connected to***, once you find it then get the number and input the following to mambaforge or whatever you are using (*Change # to your number*):
-
-```Python
-esptool -p COM# flash_id
-```
-A command line should prompt up and tell you what board is your ESP32 is. We are then going to erase everything inside of the ESP32 board, do the following (*Change # to your number*):
-
-```Python
-esptool --chip esp32 --p COM# erase_flash
-```
-
-Go to your directory of the firmware file you installed then from mambaforge, do the following command (*Change # to your number*):
-
-```Python
-esptool --chip esp32 --p COM# write_flash -z 0x1000 whateverYourFirmwareFileNameIs.bin
+Heated-Sonicator/
+├── main.py                      # ESP32 main application
+├── Lib/                          # Supporting libraries for MicroPython/CircuitPython
+├── PowerBoard/                   # Heater / power electronics documentation
+├── Useful_files_for_debugging/   # Debug notes, helpers, and references
+├── Hannah Consult 10_11.pdf       # Design / consultation reference
+└── README.md
 ```
 
 
 
+## ESP32 Setup
 
+This project uses an **Adafruit ESP32 Feather** running either **MicroPython** or **CircuitPython**.
 
-#### Flashing CircuitPython for ESP32
+### Flashing Firmware
+Example using `esptool`:
 
-You are going to need the firmware to change your ESP32 from C to CircuitPython. If you do not have the firmware then look at the reference's to find the firmware for this board. We are going to need to erase everything inside of the ESP32 board then flash it with MicroPython. Once we flashed the board then we are going to check if the board can be recognize by the [Thonny IDE](https://thonny.org).
-
-What worked for me is using [mambaforge](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html). Install mambaforge or find something that works for you, then use the following command:
-
-```Python
-pip install esptool
+```bash
+esptool.py --chip esp32 erase_flash
+esptool.py --chip esp32 write_flash -z 0x1000 firmware.bin
 ```
 
-Once you have installed the package, ***check your device manager to determine which port your ESP32 is connected to***, once you find it then get the number and input the following to mambaforge or whatever you are using (*Change # to your number*):
-
-```Python
-esptool -p COM# flash_id
-```
-A command line should prompt up and tell you what board is your ESP32 is. We are then going to erase everything inside of the ESP32 board, do the following (*Change # to your number*):
-
-```Python
-esptool --chip esp32 --p COM# erase_flash
-```
-
-Go to your directory of the firmware file you installed then from mambaforge, do the following command (*Change # to your number*):
-
-```Python
-esptool --chip esp32 --p COM# write_flash -z 0x0000 whateverYourFirmwareFileNameIs.bin
-```
-
-To change the following in Thonny IDE, you need to change the interpreter settings and you are ready.
+### Development Environment
+- **Thonny IDE**
+- USB serial connection to ESP32
+- Python-based workflow for fast iteration
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/54751574/199360982-3f4492b2-efee-4112-a028-1c656bd4d050.png">
@@ -92,9 +91,6 @@ To change the following in Thonny IDE, you need to change the interpreter settin
 
 
 
-#### Verifying the firmware using Thonny IDE 
-
-Open Thonny and you should get the following prompt:
 
 
 
@@ -103,21 +99,18 @@ Open Thonny and you should get the following prompt:
 </p>
 
 
-Go to **Run** then click **Configure interpreter. . .**
 
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/54751574/199181290-eadb9055-97e3-4947-8c28-234736a7a043.png">
 </p>
 
-Now go to **Interpreter**, find the prompt *Which kind of interpreter should Thonny use for running your code?*. Now select **MicroPython (ESP32)**, then click ok 
 
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/54751574/199181709-76888865-0eca-4028-b6f5-06838161b257.png">
 </p>
 
-Connect your ESP32 Feather V2 board and press the reset button. You should get the following:
 
 
 
@@ -126,13 +119,63 @@ Connect your ESP32 Feather V2 board and press the reset button. You should get t
 </p>
 
 
-# ESP32 Pin Layout
 
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/54751574/201508138-0a738ecb-21a5-4301-bf9b-e8b0466828f9.png">
 </p>
 
+
+
+## Firmware Entry Point
+
+- `main.py` is the primary runtime file
+- Executed automatically on boot
+- Responsible for:
+  - Heater enable/disable
+  - Temperature monitoring
+  - Safety checks
+  - System state control
+
+
+
+## Power Electronics
+
+![Power Board](images/power_board.png)
+
+The `PowerBoard/` directory contains documentation related to:
+- Heater switching
+- Isolation considerations
+- Power handling
+- Safety constraints
+
+⚠️ **Warning:** This system controls mains-level power.  
+Only qualified individuals should modify or service the power electronics.
+
+
+## Debugging & Maintenance
+
+The `Useful_files_for_debugging/` folder includes:
+- Test notes
+- Reference commands
+- Bring-up helpers
+- Troubleshooting information
+
+These files were used during commissioning of the ESP32-based replacement CCA.
+
+
+
+## Status
+
+✔ Heated sonicator successfully restored  
+✔ Original CCA fully replaced by ESP32  
+✔ System operational and serviceable  
+
+Future improvements may include:
+- PID temperature control
+- Display/UI integration
+- Data logging
+- Safety watchdogs
 
 # Reference
 - MicroPython 
@@ -154,5 +197,39 @@ Connect your ESP32 Feather V2 board and press the reset button. You should get t
 - ESP32/ESP8266
   - [Information about ESPTOOL](https://docs.espressif.com/projects/esptool/en/latest/esp32/index.html#quick-start)
   - [ESP32 V2 Pin Layout](https://learn.adafruit.com/adafruit-esp32-feather-v2/pinouts)
+
+## License
+This repository is intended for **educational, maintenance, and makerspace use**.
+
+Use at your own risk.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
